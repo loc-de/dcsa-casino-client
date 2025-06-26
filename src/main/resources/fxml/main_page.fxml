@@ -108,6 +108,28 @@
                     </image>
                 </ImageView>
 
+                <HBox spacing="10" alignment="CENTER" style="-fx-translate-y: 130;">
+                    <ImageView fx:id="slot1" fitWidth="60" fitHeight="60" preserveRatio="true"
+                               style="-fx-translate-x: -50; -fx-translate-y: -262">
+                        <image>
+                            <Image url="@/img/DEFAULT_SEVEN.png"/>
+                        </image>
+                    </ImageView>
+                    <ImageView fx:id="slot2" fitWidth="60" fitHeight="60" preserveRatio="true"
+                               style="-fx-translate-x: 0; -fx-translate-y: -262">
+                        <image>
+                            <Image url="@/img/DEFAULT_SEVEN.png"/>
+                        </image>
+                    </ImageView>
+                    <ImageView fx:id="slot3" fitWidth="60" fitHeight="60" preserveRatio="true"
+                               style="-fx-translate-x: 50; -fx-translate-y: -262">
+                        <image>
+                            <Image url="@/img/DEFAULT_SEVEN.png"/>
+                        </image>
+                    </ImageView>
+                </HBox>
+
+
                 <VBox alignment="TOP_CENTER" spacing="5.0" style="-fx-padding: 20;">
                     <TextField fx:id="betAmountInputCenter" promptText="Bet Amount" prefWidth="150" maxWidth="150"
                                style=" -fx-translate-y: 360; -fx-background-color: transparent;

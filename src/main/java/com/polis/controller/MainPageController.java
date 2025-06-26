@@ -11,15 +11,19 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 
 public class MainPageController {
 
+    public ImageView slot1;
+    public ImageView slot2;
+    public ImageView slot3;
+
     private String selectedColor = "WHITE";
-
-
 
     @FXML
     private Button betButtonLeft;
@@ -54,6 +58,7 @@ public class MainPageController {
     @FXML
     private Button SecretButton;
 
+
     @FXML
     private void handleSecretButton() {
         String code = codeField.getText();
@@ -68,9 +73,7 @@ public class MainPageController {
     private void handleBetButtonLeft() {
         BigDecimal betAmount = parseBetAmount(betAmountInputLeft);
 
-        //отримати вибраний колір
-
-        WheelBetRequest request = new WheelBetRequest(SessionStorage.getUserId(), "color", betAmount);
+        WheelBetRequest request = new WheelBetRequest(SessionStorage.getUserId(), selectedColor, betAmount);
         WheelBetResponse response = AppContext.getGameService().wheelBet(request);
 
         // вмикати анімацію
@@ -85,7 +88,9 @@ public class MainPageController {
         SlotsBetRequest request = new SlotsBetRequest(SessionStorage.getUserId(), betAmount);
         SlotsBetResponse response = AppContext.getGameService().slotsBet(request);
 
-        // відображати комбінацію
+        updateSlotImage(slot1, response.getResultCombination()[1]);
+        updateSlotImage(slot2, response.getResultCombination()[2]);
+        updateSlotImage(slot3, response.getResultCombination()[3]);
 
         updateInfo();
     }
@@ -157,5 +162,11 @@ public class MainPageController {
         }
 
         System.out.println("Selected color: " + selectedColor);
+    }
+
+    private void updateSlotImage(ImageView slot, String symbolName) {
+        String path = "/img/" + symbolName + ".png";
+        Image image = new Image(getClass().getResource(path).toExternalForm());
+        slot.setImage(image);
     }
 }
