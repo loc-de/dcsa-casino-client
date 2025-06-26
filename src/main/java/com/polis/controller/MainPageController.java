@@ -1,8 +1,17 @@
 package com.polis.controller;
 
+import com.polis.ApiClient;
+import com.polis.AppContext;
+import com.polis.dto.InfoResponse;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+
+import java.io.IOException;
 
 public class MainPageController {
 
@@ -28,7 +37,31 @@ public class MainPageController {
     private TextField betAmountInputCenter;
 
     @FXML
+    private Label labelTop1;
+
+    @FXML
+    private Label labelTop2;
+
+    @FXML
     private void initialize() {
+        InfoResponse response = AppContext.getUserService().info();
+
+        if (response == null) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/registration.fxml"));
+                Parent mainPageRoot = loader.load();
+
+                Scene scene = betButtonLeft.getScene();
+                scene.setRoot(mainPageRoot);
+                return;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        labelTop1.setText(response.getUsername());
+        labelTop2.setText(response.getBalance().toString());
+
         // BET кнопки
         betButtonLeft.setOnAction(event -> {
             String amount = betAmountInputLeft.getText();

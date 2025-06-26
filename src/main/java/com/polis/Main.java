@@ -13,7 +13,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/main_page.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/registration.fxml"));
         Parent root = null;
         try {
             root = loader.load();
@@ -24,7 +24,7 @@ public class Main extends Application {
         Scene scene = new Scene(root);
 //        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/fxml/style.css")).toExternalForm());
 
-        primaryStage.setTitle("Casino Client");
+        primaryStage.setTitle("Casino ApiClient");
         primaryStage.setWidth(1300);
         primaryStage.setHeight(720);
         primaryStage.setResizable(false);
