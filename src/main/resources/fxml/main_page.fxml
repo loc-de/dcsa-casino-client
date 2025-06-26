@@ -101,10 +101,10 @@
 
                 </VBox>
                 <MediaView fx:id="wheelVideoView"
-                           fitWidth="380.0"
-                           fitHeight="520.0"
+                           fitWidth="310.0"
+                           fitHeight="380.0"
                            preserveRatio="true"
-                           style="-fx-translate-y: 0;" />
+                           style="-fx-translate-y: -88;" />
             </StackPane>
 
             <!-- Slots panel (центр) -->

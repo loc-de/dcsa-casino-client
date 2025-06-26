@@ -28,7 +28,7 @@ public class GameService {
     @SneakyThrows
     public WheelBetResponse wheelBet(WheelBetRequest request) {
         HttpResponse<String> response = ApiClient.post(BASE_URL + "/wheel", request);
-
+        System.out.println(response);
         if (response.statusCode() != 200) {
             return null;
         }

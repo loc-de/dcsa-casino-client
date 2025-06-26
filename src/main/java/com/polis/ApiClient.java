@@ -7,26 +7,23 @@ import java.net.http.HttpResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.polis.storage.SessionStorage;
+import lombok.SneakyThrows;
 
 public class ApiClient {
 
     private static final HttpClient client = HttpClient.newHttpClient();
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
+    @SneakyThrows
     public static <T> HttpResponse<String> post(String url, Object body) {
-        try {
-            String json = objectMapper.writeValueAsString(body);
+        String json = objectMapper.writeValueAsString(body);
 
-            HttpRequest.Builder builder = baseBuilder(url);
-            HttpRequest request = builder
-                    .POST(HttpRequest.BodyPublishers.ofString(json))
-                    .build();
+        HttpRequest.Builder builder = baseBuilder(url);
+        HttpRequest request = builder
+                .POST(HttpRequest.BodyPublishers.ofString(json))
+                .build();
 
-            return client.send(request, HttpResponse.BodyHandlers.ofString());
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        return client.send(request, HttpResponse.BodyHandlers.ofString());
     }
 
     public static HttpResponse<String> post(String url) {

@@ -4,6 +4,8 @@ import com.polis.ApiClient;
 import com.polis.AppContext;
 import com.polis.dto.*;
 import com.polis.storage.SessionStorage;
+import javafx.animation.PauseTransition;
+import javafx.animation.RotateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,9 +18,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.util.Duration;
+import lombok.SneakyThrows;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 public class MainPageController {
 
@@ -64,7 +69,6 @@ public class MainPageController {
     @FXML
     private Button SecretButton;
 
-
     @FXML
     private void handleSecretButton() {
         String code = codeField.getText();
@@ -76,16 +80,16 @@ public class MainPageController {
     }
 
     private void playWheelAnimation(String videoName) {
-        String path = "/video/" + videoName + " .mp4";
+        String path = "/videos/" + videoName + ".mp4";
 
         try {
-            Media media = new Media(getClass().getResource(path).toExternalForm());
+            Media media = new Media(Objects.requireNonNull(getClass().getResource(path)).toExternalForm());
             MediaPlayer mediaPlayer = new MediaPlayer(media);
             wheelVideoView.setMediaPlayer(mediaPlayer);
 
             mediaPlayer.setOnEndOfMedia(() -> {
                 mediaPlayer.dispose();
-                wheelVideoView.setMediaPlayer(null); // ховає
+                wheelVideoView.setMediaPlayer(null);
             });
 
             mediaPlayer.play();
@@ -95,6 +99,7 @@ public class MainPageController {
         }
     }
 
+    @SneakyThrows
     @FXML
     private void handleBetButtonLeft() {
         BigDecimal betAmount = parseBetAmount(betAmountInputLeft);
@@ -102,11 +107,14 @@ public class MainPageController {
         WheelBetRequest request = new WheelBetRequest(SessionStorage.getUserId(), selectedColor, betAmount);
         WheelBetResponse response = AppContext.getGameService().wheelBet(request);
 
-        String videoToPlay = response.getResultVideo();
+        if (response != null) {
+            String videoToPlay = response.getResultVideo();
 
-        playWheelAnimation(videoToPlay);
-
-        updateInfo();
+            playWheelAnimation(videoToPlay);
+            PauseTransition pause = new PauseTransition(Duration.seconds(3));
+            pause.setOnFinished(event -> updateInfo());
+            pause.play();
+        }
     }
 
     @FXML
@@ -160,6 +168,7 @@ public class MainPageController {
 
     @FXML
     private void initialize() {
+        wheelVideoView.setMouseTransparent(true);
         updateInfo();
 
         // колір
