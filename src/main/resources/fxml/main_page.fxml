@@ -4,6 +4,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.media.MediaView?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.polis.controller.MainPageController"
@@ -97,7 +98,13 @@
 
                     <Button fx:id="betButtonLeft" text="BET" onAction="#handleBetButtonLeft" prefWidth="240" prefHeight="60"
                             style="-fx-translate-y: 395; -fx-border-color: transparent; -fx-text-fill: transparent; -fx-background-color: transparent" />
+
                 </VBox>
+                <MediaView fx:id="wheelVideoView"
+                           fitWidth="380.0"
+                           fitHeight="520.0"
+                           preserveRatio="true"
+                           style="-fx-translate-y: 0;" />
             </StackPane>
 
             <!-- Slots panel (центр) -->
@@ -137,6 +144,7 @@
                     <Button fx:id="betButtonCenter" text="BET" onAction="#handleBetButtonCenter" prefWidth="240" prefHeight="70"
                             style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: transparent; -fx-translate-y: 380"/>
                 </VBox>
+
             </StackPane>
 
             <!-- Coming soon (права) -->

@@ -13,6 +13,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -24,6 +27,9 @@ public class MainPageController {
     public ImageView slot3;
 
     private String selectedColor = "WHITE";
+
+    @FXML
+    private MediaView wheelVideoView;
 
     @FXML
     private Button betButtonLeft;
@@ -69,6 +75,26 @@ public class MainPageController {
         updateInfo();
     }
 
+    private void playWheelAnimation(String videoName) {
+        String path = "/video/" + videoName + " .mp4";
+
+        try {
+            Media media = new Media(getClass().getResource(path).toExternalForm());
+            MediaPlayer mediaPlayer = new MediaPlayer(media);
+            wheelVideoView.setMediaPlayer(mediaPlayer);
+
+            mediaPlayer.setOnEndOfMedia(() -> {
+                mediaPlayer.dispose();
+                wheelVideoView.setMediaPlayer(null); // ховає
+            });
+
+            mediaPlayer.play();
+
+        } catch (Exception e) {
+            System.err.println("video error: " + e.getMessage());
+        }
+    }
+
     @FXML
     private void handleBetButtonLeft() {
         BigDecimal betAmount = parseBetAmount(betAmountInputLeft);
@@ -76,7 +102,9 @@ public class MainPageController {
         WheelBetRequest request = new WheelBetRequest(SessionStorage.getUserId(), selectedColor, betAmount);
         WheelBetResponse response = AppContext.getGameService().wheelBet(request);
 
-        // вмикати анімацію
+        String videoToPlay = response.getResultVideo();
+
+        playWheelAnimation(videoToPlay);
 
         updateInfo();
     }
@@ -133,17 +161,6 @@ public class MainPageController {
     @FXML
     private void initialize() {
         updateInfo();
-
-        // бет
-//        betButtonLeft.setOnAction(event -> {
-//            String amount = betAmountInputLeft.getText();
-//            System.out.println("left BET. bet: " + amount);
-//        });
-//
-//        betButtonCenter.setOnAction(event -> {
-//            String amount = betAmountInputCenter.getText();
-//            System.out.println("center BET. bet: " + amount);
-//        });
 
         // колір
         mark1Left.setOnAction(e -> selectOnlyMark(1));
