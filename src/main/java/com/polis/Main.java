@@ -7,14 +7,13 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.Objects;
 
 
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/base_layout.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/main_page.fxml"));
         Parent root = null;
         try {
             root = loader.load();
@@ -26,9 +25,9 @@ public class Main extends Application {
 //        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/fxml/style.css")).toExternalForm());
 
         primaryStage.setTitle("Casino Client");
-        primaryStage.setWidth(1100);
-        primaryStage.setHeight(600);
-        primaryStage.setResizable(true);
+        primaryStage.setWidth(1300);
+        primaryStage.setHeight(720);
+        primaryStage.setResizable(false);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

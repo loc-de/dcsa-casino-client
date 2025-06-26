@@ -5,7 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
-public class RegistrationController {
+public class LoginController {
 
     @FXML
     private TextField loginField;
@@ -21,11 +21,6 @@ public class RegistrationController {
 
     @FXML
     private void handleLogin() {
-        // тут короче буде перехід на сторінку логіна, точніше на кнопках всьо то буде
-    }
-
-    @FXML
-    private void handleRegister() {
         String login = loginField.getText();
         String password = passwordField.getText();
         System.out.println("Registration:\nLogin: " + login + "\nPassword: " + password);

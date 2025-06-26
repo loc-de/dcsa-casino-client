@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.polis.controller.LoginController"
+            prefWidth="1280.0" prefHeight="720.0"
+            style="-fx-background-color: #C3D2FF;">
+
+    <center>
+        <StackPane alignment="CENTER" BorderPane.alignment="CENTER" style="-fx-padding: 25;">
+
+            <!-- Картинка на задньому плані -->
+            <ImageView fitWidth="429.0" fitHeight="429.0" preserveRatio="false">
+                <image>
+                    <Image url="@/img/Login.png"/>
+                </image>
+            </ImageView>
+
+            <!-- Поля, які накладаються поверх картинки -->
+            <VBox alignment="CENTER" spacing="38.0"
+                  style="-fx-padding: 20; -fx-translate-y: 100;">
+
+                <TextField fx:id="loginField" promptText="Логін" prefWidth="100" prefHeight="52" maxWidth="300"
+                           style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: black;"/>
+                <PasswordField fx:id="passwordField" promptText="Пароль" prefWidth="280" prefHeight="52" maxWidth="300"
+                               style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: black;"/>
+
+                <VBox alignment="CENTER" spacing="30.0" style="-fx-translate-y: -15;">
+                    <Button fx:id="loginButton" text="I'm already in" onAction="#handleLogin" prefWidth="120" prefHeight="40"
+                            style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: transparent;"/>
+                </VBox>
+
+            </VBox>
+
+        </StackPane>
+    </center>
+
+</BorderPane>
