@@ -43,24 +43,27 @@ public class MainPageController {
     private Label labelTop2;
 
     @FXML
+    private Button SecretButton;
+
+    @FXML
     private void initialize() {
-        InfoResponse response = AppContext.getUserService().info();
-
-        if (response == null) {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/registration.fxml"));
-                Parent mainPageRoot = loader.load();
-
-                Scene scene = betButtonLeft.getScene();
-                scene.setRoot(mainPageRoot);
-                return;
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-        labelTop1.setText(response.getUsername());
-        labelTop2.setText(response.getBalance().toString());
+//        InfoResponse response = AppContext.getUserService().info();
+//
+//        if (response == null) {
+//            try {
+//                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/registration.fxml"));
+//                Parent mainPageRoot = loader.load();
+//
+//                Scene scene = betButtonLeft.getScene();
+//                scene.setRoot(mainPageRoot);
+//                return;
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
+//        }
+//
+//        labelTop1.setText(response.getUsername());
+//        labelTop2.setText(response.getBalance().toString());
 
         // BET кнопки
         betButtonLeft.setOnAction(event -> {
