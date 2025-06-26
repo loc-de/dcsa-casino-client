@@ -14,7 +14,9 @@ public class GameService {
 
     @SneakyThrows
     public SlotsBetResponse slotsBet(SlotsBetRequest request) {
-        HttpResponse<String> response = ApiClient.post(BASE_URL + "/slots");
+        HttpResponse<String> response = ApiClient.post(BASE_URL + "/slots", request);
+
+        System.out.println(response);
 
         if (response.statusCode() != 200) {
             return null;
@@ -25,7 +27,7 @@ public class GameService {
 
     @SneakyThrows
     public WheelBetResponse wheelBet(WheelBetRequest request) {
-        HttpResponse<String> response = ApiClient.post(BASE_URL + "/wheel");
+        HttpResponse<String> response = ApiClient.post(BASE_URL + "/wheel", request);
 
         if (response.statusCode() != 200) {
             return null;

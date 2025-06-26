@@ -88,11 +88,13 @@ public class MainPageController {
         SlotsBetRequest request = new SlotsBetRequest(SessionStorage.getUserId(), betAmount);
         SlotsBetResponse response = AppContext.getGameService().slotsBet(request);
 
-        updateSlotImage(slot1, response.getResultCombination()[1]);
-        updateSlotImage(slot2, response.getResultCombination()[2]);
-        updateSlotImage(slot3, response.getResultCombination()[3]);
+        if (response != null) {
+            updateSlotImage(slot1, response.getResultCombination()[0]);
+            updateSlotImage(slot2, response.getResultCombination()[1]);
+            updateSlotImage(slot3, response.getResultCombination()[2]);
 
-        updateInfo();
+            updateInfo();
+        }
     }
 
     private BigDecimal parseBetAmount(TextField field) {
@@ -106,26 +108,26 @@ public class MainPageController {
     }
 
     private void updateInfo() {
-//        InfoResponse response = AppContext.getUserService().info();
-//
-//        if (response == null) {
-//            try {
-//                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/registration.fxml"));
-//                Parent mainPageRoot = loader.load();
-//
-//                Scene scene = betButtonLeft.getScene();
-//                scene.setRoot(mainPageRoot);
-//                return;
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
-//        }
-//        labelTop1.setText(response.getUsername());
-//        labelTop2.setText(response.getBalance().toString());
-//
-//        if (SessionStorage.getUserId() == null) {
-//            SessionStorage.setUserId(response.getUserId());
-//        }
+        InfoResponse response = AppContext.getUserService().info();
+
+        if (response == null) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/registration.fxml"));
+                Parent mainPageRoot = loader.load();
+
+                Scene scene = betButtonLeft.getScene();
+                scene.setRoot(mainPageRoot);
+                return;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        labelTop1.setText(response.getUsername());
+        labelTop2.setText(response.getBalance().toString());
+
+        if (SessionStorage.getUserId() == null) {
+            SessionStorage.setUserId(response.getUserId());
+        }
     }
 
     @FXML
@@ -133,15 +135,15 @@ public class MainPageController {
         updateInfo();
 
         // бет
-        betButtonLeft.setOnAction(event -> {
-            String amount = betAmountInputLeft.getText();
-            System.out.println("left BET. bet: " + amount);
-        });
-
-        betButtonCenter.setOnAction(event -> {
-            String amount = betAmountInputCenter.getText();
-            System.out.println("center BET. bet: " + amount);
-        });
+//        betButtonLeft.setOnAction(event -> {
+//            String amount = betAmountInputLeft.getText();
+//            System.out.println("left BET. bet: " + amount);
+//        });
+//
+//        betButtonCenter.setOnAction(event -> {
+//            String amount = betAmountInputCenter.getText();
+//            System.out.println("center BET. bet: " + amount);
+//        });
 
         // колір
         mark1Left.setOnAction(e -> selectOnlyMark(1));
