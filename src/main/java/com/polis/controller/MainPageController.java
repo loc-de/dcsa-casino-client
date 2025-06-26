@@ -2,7 +2,8 @@ package com.polis.controller;
 
 import com.polis.ApiClient;
 import com.polis.AppContext;
-import com.polis.dto.InfoResponse;
+import com.polis.dto.*;
+import com.polis.storage.SessionStorage;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
 public class MainPageController {
 
@@ -37,6 +39,9 @@ public class MainPageController {
     private TextField betAmountInputCenter;
 
     @FXML
+    private TextField codeField;
+
+    @FXML
     private Label labelTop1;
 
     @FXML
@@ -46,24 +51,79 @@ public class MainPageController {
     private Button SecretButton;
 
     @FXML
+    private void handleSecretButton() {
+        String code = codeField.getText();
+
+        CodeRequest request = new CodeRequest(SessionStorage.getUserId(), code);
+
+        AppContext.getUserService().code(request);
+        updateInfo();
+    }
+
+    @FXML
+    private void handleBetButtonLeft() {
+        BigDecimal betAmount = parseBetAmount(betAmountInputLeft);
+
+        //отримати вибраний колір
+
+        WheelBetRequest request = new WheelBetRequest(SessionStorage.getUserId(), "color", betAmount);
+        WheelBetResponse response = AppContext.getGameService().wheelBet(request);
+
+        // вмикати анімацію
+
+        updateInfo();
+    }
+
+    @FXML
+    private void handleBetButtonCenter() {
+        BigDecimal betAmount = parseBetAmount(betAmountInputCenter);
+
+        SlotsBetRequest request = new SlotsBetRequest(SessionStorage.getUserId(), betAmount);
+        SlotsBetResponse response = AppContext.getGameService().slotsBet(request);
+
+        // відображати комбінацію
+
+        updateInfo();
+    }
+
+    private BigDecimal parseBetAmount(TextField field) {
+        String betAmountString = field.getText();
+
+        try {
+            return new BigDecimal(Integer.parseInt(betAmountString));
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
+    private void updateInfo() {
+        InfoResponse response = AppContext.getUserService().info();
+
+        if (response == null) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/registration.fxml"));
+                Parent mainPageRoot = loader.load();
+
+                Scene scene = betButtonLeft.getScene();
+                scene.setRoot(mainPageRoot);
+                return;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        labelTop1.setText(response.getUsername());
+        labelTop2.setText(response.getBalance().toString());
+
+        if (SessionStorage.getUserId() == null) {
+            SessionStorage.setUserId(response.getUserId());
+        }
+    }
+
+    @FXML
     private void initialize() {
-//        InfoResponse response = AppContext.getUserService().info();
-//
-//        if (response == null) {
-//            try {
-//                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/registration.fxml"));
-//                Parent mainPageRoot = loader.load();
-//
-//                Scene scene = betButtonLeft.getScene();
-//                scene.setRoot(mainPageRoot);
-//                return;
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
-//        }
-//
-//        labelTop1.setText(response.getUsername());
-//        labelTop2.setText(response.getBalance().toString());
+        updateInfo();
+
+
 
         // BET кнопки
         betButtonLeft.setOnAction(event -> {

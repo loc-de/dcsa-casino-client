@@ -2,6 +2,7 @@ package com.polis.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.polis.ApiClient;
+import com.polis.dto.CodeRequest;
 import com.polis.dto.InfoResponse;
 import com.polis.dto.LoginRequest;
 import com.polis.storage.SessionStorage;
@@ -11,7 +12,7 @@ import java.net.http.HttpResponse;
 
 public class UserService {
 
-    private static final String BASE_URL = "http://localhost:18840/api/user";
+    private static final String BASE_URL = "http://localhost:18842/api/user";
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     @SneakyThrows
@@ -23,6 +24,10 @@ public class UserService {
         }
 
         return objectMapper.readValue(response.body(), InfoResponse.class);
+    }
+
+    public void code(CodeRequest request) {
+        ApiClient.post(BASE_URL + "/code", request);
     }
 
 }

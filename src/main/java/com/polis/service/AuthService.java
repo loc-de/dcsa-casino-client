@@ -9,7 +9,7 @@ import java.net.http.HttpResponse;
 
 public class AuthService {
 
-    private static final String BASE_URL = "http://localhost:18840/api/auth";
+    private static final String BASE_URL = "http://localhost:18842/api/auth";
 
     public boolean login(LoginRequest request) {
         HttpResponse<String> response = ApiClient.post(BASE_URL + "/login", request);
