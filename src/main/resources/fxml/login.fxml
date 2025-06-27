@@ -13,14 +13,14 @@
     <center>
         <StackPane alignment="CENTER" BorderPane.alignment="CENTER" style="-fx-padding: 25;">
 
-            <!-- Картинка на задньому плані -->
+            <!-- фонова пікча -->
             <ImageView fitWidth="429.0" fitHeight="429.0" preserveRatio="false">
                 <image>
                     <Image url="@/img/Login.png"/>
                 </image>
             </ImageView>
 
-            <!-- Поля, які накладаються поверх картинки -->
+            <!-- те, що зверху -->
             <VBox alignment="CENTER" spacing="38.0"
                   style="-fx-padding: 20; -fx-translate-y: 100;">
 
