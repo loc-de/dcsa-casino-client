@@ -4,8 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.polis.ApiClient;
 import com.polis.dto.CodeRequest;
 import com.polis.dto.InfoResponse;
-import com.polis.dto.LoginRequest;
-import com.polis.storage.SessionStorage;
+import com.polis.security.CryptoService;
 import lombok.SneakyThrows;
 
 import java.net.http.HttpResponse;
@@ -17,13 +16,16 @@ public class UserService {
 
     @SneakyThrows
     public InfoResponse info() {
-        HttpResponse<String> response = ApiClient.post(BASE_URL + "/info");
+        HttpResponse<byte[]> response = ApiClient.post(BASE_URL + "/info");
 
         if (response.statusCode() != 200) {
             return null;
         }
 
-        return objectMapper.readValue(response.body(), InfoResponse.class);
+        return objectMapper.readValue(
+                CryptoService.decrypt(response.body()),
+                InfoResponse.class
+        );
     }
 
     public void code(CodeRequest request) {

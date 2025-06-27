@@ -12,7 +12,7 @@ public class AuthService {
     private static final String BASE_URL = "http://localhost:18842/api/auth";
 
     public boolean login(LoginRequest request) {
-        HttpResponse<String> response = ApiClient.post(BASE_URL + "/login", request);
+        HttpResponse<byte[]> response = ApiClient.post(BASE_URL + "/login", request);
 
         if (response.statusCode() == 200) {
             String token = response.headers().firstValue("x-token").orElse(null);
@@ -25,7 +25,7 @@ public class AuthService {
     }
 
     public boolean register(RegisterRequest request) {
-        HttpResponse<String> response = ApiClient.post(BASE_URL + "/register", request);
+        HttpResponse<byte[]> response = ApiClient.post(BASE_URL + "/register", request);
 
         if (response.statusCode() == 200) {
             String token = response.headers().firstValue("x-token").orElse(null);

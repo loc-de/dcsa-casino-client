@@ -3,6 +3,7 @@ package com.polis.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.polis.ApiClient;
 import com.polis.dto.*;
+import com.polis.security.CryptoService;
 import lombok.SneakyThrows;
 
 import java.net.http.HttpResponse;
@@ -14,7 +15,7 @@ public class GameService {
 
     @SneakyThrows
     public SlotsBetResponse slotsBet(SlotsBetRequest request) {
-        HttpResponse<String> response = ApiClient.post(BASE_URL + "/slots", request);
+        HttpResponse<byte[]> response = ApiClient.post(BASE_URL + "/slots", request);
 
         System.out.println(response);
 
@@ -22,18 +23,24 @@ public class GameService {
             return null;
         }
 
-        return objectMapper.readValue(response.body(), SlotsBetResponse.class);
+        return objectMapper.readValue(
+                CryptoService.decrypt(response.body()),
+                SlotsBetResponse.class
+        );
     }
 
     @SneakyThrows
     public WheelBetResponse wheelBet(WheelBetRequest request) {
-        HttpResponse<String> response = ApiClient.post(BASE_URL + "/wheel", request);
+        HttpResponse<byte[]> response = ApiClient.post(BASE_URL + "/wheel", request);
         System.out.println(response);
         if (response.statusCode() != 200) {
             return null;
         }
 
-        return objectMapper.readValue(response.body(), WheelBetResponse.class);
+        return objectMapper.readValue(
+                CryptoService.decrypt(response.body()),
+                WheelBetResponse.class
+        );
     }
 
 }
